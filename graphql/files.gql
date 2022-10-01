@@ -1,0 +1,22 @@
+query (
+    $login: String = ""
+    $names: [String]
+    $version: String = ""
+    $first: Int
+) {
+    organization(login: $login) {
+        packages(packageType: MAVEN, first: 1, names: $names) {
+            nodes {
+                version(version: $version) {
+                    files(first: $first) {
+                        nodes {
+                            name
+                            sha1
+                            size
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
