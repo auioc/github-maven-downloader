@@ -1,5 +1,5 @@
 import json
-from typing import Dict
+from typing import Any, Dict
 
 import requests
 import urllib3
@@ -33,7 +33,7 @@ def post(path: str, data: str):
     return json.loads(r.text)
 
 
-def queryGql(query: str, vars: Dict[str, str]):
+def queryGql(query: str, vars: Dict[str, Any]):
     return post("/graphql", json.dumps({"query": query, "variables": vars}))
 
 
