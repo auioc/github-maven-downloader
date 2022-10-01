@@ -3,8 +3,10 @@
 tmp
 build
 run
+test
 data/*/
 
 __pycache__/
 
 config.json
+test*.*
