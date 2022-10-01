@@ -1,0 +1,10 @@
+.vscode
+
+tmp
+build
+run
+data/*/
+
+__pycache__/
+
+config.json
