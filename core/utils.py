@@ -17,18 +17,19 @@ def readText(file: str):
         return f.read()
 
 
-def writeText(file: str, text: str):
+def writeText(file: str, text: str) -> str:
     absFile = os.path.abspath(file)
     absDir = os.path.dirname(absFile)
     if not os.path.exists(absDir):
         os.makedirs(absDir)
     with open(absFile, "w", encoding="utf-8") as f:
         f.write(text)
+    return absFile
 
 
 def readJson(file: str):
     return json.loads(readText(file))
 
 
-def writeJson(file: str, jsonObj: dict):
-    writeText(file, json.dumps(jsonObj, ensure_ascii=False, indent=4))
+def writeJson(file: str, jsonObj: dict) -> str:
+    return writeText(file, json.dumps(jsonObj, ensure_ascii=False, indent=4))
