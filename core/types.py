@@ -13,5 +13,6 @@ class Version(TypedDict):
 
 class Package(TypedDict):
     owner: str
-    name: str
+    package: str
+    repository: str
     versions: Dict[str, Version]

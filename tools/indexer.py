@@ -16,11 +16,20 @@ def _queryGql(query: str, vars: Dict[str, Any], handler: Callable):
 class FileIndexer(object):
     owner: str
     package: str
-    versions: Dict[str, Version] = {}
+    repository: str
+    versions: Dict[str, Version]
 
     def __init__(self, owner: str, package: str) -> None:
         self.owner = owner
         self.package = package
+
+    def queryRepository(self) -> str:
+        repo = API.queryRest(
+            f"/users/{self.owner}/packages/maven/{self.package}",
+            lambda data: data["repository"]["name"]
+        )
+        self.repository = repo
+        return repo
 
     def queryVersions(self) -> List[str]:
         print(f"Querying version in package '{self.owner}:{self.package}'")
@@ -28,6 +37,7 @@ class FileIndexer(object):
             f"/users/{self.owner}/packages/maven/{self.package}/versions",
             lambda data: [i["name"] for i in data]
         )
+        self.versions = {}
         for version in versions:
             self.versions[version] = {}
         return versions
@@ -51,10 +61,16 @@ class FileIndexer(object):
             self.versions[version]["files"] = files
         return self.versions
 
+    def queryAll(self) -> None:
+        self.queryRepository()
+        self.queryVersions()
+        self.queryFiles()
+
     def toPackage(self) -> Package:
         return {
             "owner": self.owner,
-            "name": self.package,
+            "package": self.package,
+            "repository": self.repository,
             "version": self.versions
         }
 
