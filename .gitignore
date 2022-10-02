@@ -5,6 +5,7 @@ build
 run
 test
 data/*/
+maven/*/
 
 __pycache__/
 
