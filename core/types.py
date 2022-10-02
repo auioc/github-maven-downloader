@@ -16,3 +16,14 @@ class Package(TypedDict):
     package: str
     repository: str
     versions: Dict[str, Version]
+
+
+class PackageName(TypedDict):
+    groupId: str
+    artifactId: str
+
+
+class Metadata(TypedDict):
+    metadata: str
+    md5: str
+    sha1: str
