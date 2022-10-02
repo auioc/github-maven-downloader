@@ -1,5 +1,3 @@
-import json
-
 import requests
 import urllib3
 from lxml import etree
@@ -7,7 +5,7 @@ from requests.adapters import HTTPAdapter
 from requests.sessions import Session
 
 from core.config import PROXY
-from core.utils import die
+from core.utils import die, writeBinary
 
 if __name__ == "__main__":
     die()
@@ -24,10 +22,16 @@ class HttpRequester(object):
         session.mount("https://", HTTPAdapter(max_retries=3))
         self.session = session
 
-    def getJson(self, url: str):
+    def get(self, url: str):
         r = self.session.get(url)
         r.raise_for_status()
-        return r.json()
+        return r
+
+    def getText(self, url: str):
+        return self.get(url).text
+
+    def getJson(self, url: str):
+        return self.get(url).json()
 
     def getJsonPost(self, url: str, data: str):
         r = self.session.post(url, data=data)
@@ -35,6 +39,10 @@ class HttpRequester(object):
         return r.json()
 
     def getXml(self, url: str):
-        r = self.session.get(url)
-        r.raise_for_status()
-        return etree.fromstring(r.text)
+        return etree.fromstring(self.get(url).text)
+
+    def getContent(self, url: str):
+        return self.get(url).content
+
+    def downloadFile(self, url: str, file: str):
+        writeBinary(file, self.get(url).content)
