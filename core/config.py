@@ -6,7 +6,11 @@ if __name__ == "__main__":
     die()
 
 CONFIG_FILE = "config.json"
-CONFIG = readJson(CONFIG_FILE)
+CONFIG = {}
+try:
+    CONFIG = readJson(CONFIG_FILE)
+except:
+    pass
 
 PROXY = (lambda e:
          (lambda c: c["proxy"] if ("proxy" in c.keys()) else {})(CONFIG)
