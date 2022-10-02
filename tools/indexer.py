@@ -71,7 +71,7 @@ class FileIndexer(object):
             "owner": self.owner,
             "package": self.package,
             "repository": self.repository,
-            "version": self.versions
+            "versions": self.versions
         }
 
     def toJson(self) -> str:

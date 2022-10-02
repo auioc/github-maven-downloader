@@ -2,6 +2,7 @@ import json
 
 import requests
 import urllib3
+from lxml import etree
 from requests.adapters import HTTPAdapter
 from requests.sessions import Session
 
@@ -32,3 +33,8 @@ class HttpRequester(object):
         r = self.session.post(url, data=data)
         r.raise_for_status()
         return r.json()
+
+    def getXml(self, url: str):
+        r = self.session.get(url)
+        r.raise_for_status()
+        return etree.fromstring(r.text)
